@@ -16,7 +16,14 @@ void board(std::vector<std::vector<int>> bM)
 		for(auto j : i)
 		{
 			std::cout << j;
-			std::cout << "   |   ";
+			if(std::to_string(j).length() == 2)
+				std::cout << "  |   ";
+			else if(std::to_string(j).length() == 3)
+				std::cout << "  |  ";
+			else if(std::to_string(j).length() == 4)
+				std::cout << "  | ";
+			else if(std::to_string(j).length() == 1)
+				std::cout << "   |   ";
 		}
 			
 		std::cout << "\n\t\t     |------|-------|-------|-------|";
@@ -141,6 +148,15 @@ void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
     }
 }
 
+bool boardFull(std::vector<std::vector<int>> bM)
+{
+	for(auto i : bM)
+		for(auto j : i)
+			if(j == 0)
+				return false;
+	return true;
+}
+
 void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, bool &isRunning)
 {
 	int tempInt = 9;
@@ -181,8 +197,24 @@ void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, boo
 	}
 	else if(key == 'q' || key == 'Q')
 	{
+		isRunning = false;	
+	}
+	else if(boardFull(bData) && copyVec == bData)
+	{
 		isRunning = false;
 	}
+}
+
+bool checkGameOver(std::vector<std::vector<int>> bM)
+{
+	std::vector<std::vector<int>> copyVec = bM;
+	std::vector<int> keys = {72, 75, 77, 80};
+	bool isRunning = true;
+	for(auto i : keys)
+		actionBasedOnKeyPressed(char(i), copyVec, isRunning);
+	if(bM == copyVec)
+		return true;
+	return false;
 }
 
 

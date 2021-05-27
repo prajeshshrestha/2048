@@ -28,7 +28,12 @@ int main(int argc, char** argv)
 		char kI;
 		kI = getch();
 		actionBasedOnKeyPressed(kI, bM, isRunning);
+		if(checkGameOver(bM))
+		{
+			isRunning = false;
+		}
 	}
+	std::cout << "Your Score is: " << score << "\n" << 
 	
 	return 0;
 }
