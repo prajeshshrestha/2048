@@ -42,6 +42,41 @@ void startBoard(std::vector<std::vector<int>> &aBM)
 	}
 }
 
+void calcVec(std::vector<int> &test)
+{
+	int tempInt;
+	for(int i = 0; i < 4; i++)
+	{
+		if(test[i] != 0 && i != 0)
+		{
+			tempInt = test[i];
+			bool found = false;
+			test[i] = 0;
+			for(int k = i -1; k >=0; k--)
+			{
+				if(test[k] == tempInt)
+				{
+					test[k] = 2*tempInt;
+					break;
+				}
+				else if(test[k] != 0 && test[k] != tempInt)
+				{
+					test[k+1] = tempInt;
+					break;
+				}
+				else if(k == 0)
+				{
+					test[k] = tempInt;
+				}
+			}
+		}
+	}
+	for(auto i : test)
+		std::cout << i << "\t";
+	std::cout << "\n\n";
+}
+
+
 void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, bool &isRunning)
 {
 	int tempInt = 9;
