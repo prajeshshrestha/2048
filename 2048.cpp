@@ -6,23 +6,40 @@
 
 int score = 0;
 
-void board(std::vector<std::vector<int>> bM)
+std::vector<std::vector<std::string>> intToChar(std::vector<std::vector<int>> bM)
 {
+	std::vector<std::vector<std::string>> result =
+	{
+		{" "," "," "," "},
+		{" "," "," "," "},
+		{" "," "," "," "},
+		{" "," "," "," "}
+	};
+	for(int i = 0; i < 4; i++)
+		for(int j = 0; j < 4; j++)
+			bM[i][j] == 0 ? result[i][j] = " " : result[i][j] = std::to_string(bM[i][j]);
+	return result;
+}
+
+
+void board(std::vector<std::vector<int>> cM)
+{
+	std::vector<std::vector<std::string>> bM = intToChar(cM);
 	std::cout << "\n\n\n\n\n";
 	std::cout << "\n\t\t     |------|-------|-------|-------|\n";
-	for(auto i : bM)
+	for(std::vector<std::string> i : bM)
 	{
 		std::cout << "\t\t     |  ";
-		for(auto j : i)
+		for(std::string j : i)
 		{
 			std::cout << j;
-			if(std::to_string(j).length() == 2)
+			if(j.length() == 2)
 				std::cout << "  |   ";
-			else if(std::to_string(j).length() == 3)
+			else if(j.length() == 3)
 				std::cout << " |   ";
-			else if(std::to_string(j).length() == 4)
+			else if(j.length() == 4)
 				std::cout << "  | ";
-			else if(std::to_string(j).length() == 1)
+			else if(j.length() == 1)
 				std::cout << "   |   ";
 		}
 			
@@ -32,7 +49,6 @@ void board(std::vector<std::vector<int>> bM)
 	std::cout << "\n\n\t\t      Controls: Use the arrow keys."; 
 	std::cout << "\n\t\t      Press q to quit.";
 	std::cout << "\n\t\t      Score: " << score;
-
 	std::cout << "\n\n\n";
 }
 

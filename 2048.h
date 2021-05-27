@@ -10,5 +10,5 @@ void alterBoard(std::vector<std::vector<int>> &);
 bool checkGameOver(std::vector<std::vector<int>> bM);
 void printScore();
 bool boardFull(std::vector<std::vector<int>>);
-
+std::vector<std::vector<std::string>> intToChar(std::vector<std::vector<int>>);
 #endif
