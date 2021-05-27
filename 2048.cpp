@@ -109,6 +109,37 @@ void alterBoard(std::vector<std::vector<int>> &bM)
     std::cout << "\n\n";
 }
 
+void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
+{
+    std::vector<int> tempVec;
+    int j = 0;
+    for(int j = 0; j < 4 ; j++)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            tempVec.push_back(bM[i][j]);
+        }
+        if(downKey)
+        {
+            std::reverse(tempVec.begin(), tempVec.end());
+            calcVec(tempVec);
+            std::reverse(tempVec.begin(), tempVec.end());
+        }
+        else
+            calcVec(tempVec);
+        for(int i = 0; i < 4; i++)
+        {
+            bM[i][j] = tempVec[i];
+        }
+        tempVec.clear();
+    }
+    for(auto i : bM)
+    {
+        for(auto j : i)
+            std::cout << j << '\t';
+        std::cout << std::endl;
+    }
+}
 
 void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, bool &isRunning)
 {
@@ -119,9 +150,7 @@ void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, boo
 		for(auto &item : bData)
 			calcVec(item);
 		if(copyVec != bData)
-		{
 			alterBoard(bData);
-		}
 	}
 	else if(int(key)== KEY_RIGHT)
 	{
@@ -134,17 +163,21 @@ void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, boo
 			item = tempVec;
 		}
 		if(copyVec != bData)
-		{
 			alterBoard(bData);
-		}
+		
 	}
 	else if(int(key)== KEY_UP)
 	{
-		std::cout << "You Pressed Up key.";
+		upDownMovement(bData);
+		if(copyVec != bData)
+			alterBoard(bData);
+		
 	}
 	else if(int(key)== KEY_DOWN)
 	{
-		std::cout << "You Pressed down key.";
+		upDownMovement(bData, true);
+		if(copyVec != bData)
+			alterBoard(bData);
 	}
 	else if(key == 'q' || key == 'Q')
 	{

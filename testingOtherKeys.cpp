@@ -31,27 +31,47 @@ void calcVec(std::vector<int> &test)
 	}
 }
 
+void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
+{
+    std::vector<int> tempVec;
+    int j = 0;
+    for(int j = 0; j < 4 ; j++)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            tempVec.push_back(bM[i][j]);
+        }
+        if(downKey)
+        {
+            std::reverse(tempVec.begin(), tempVec.end());
+            calcVec(tempVec);
+            std::reverse(tempVec.begin(), tempVec.end());
+        }
+        else
+            calcVec(tempVec);
+        for(int i = 0; i < 4; i++)
+        {
+            bM[i][j] = tempVec[i];
+        }
+        tempVec.clear();
+    }
+    for(auto i : bM)
+    {
+        for(auto j : i)
+            std::cout << j << '\t';
+        std::cout << std::endl;
+    }
+}
+
 int main()
 {
     std::vector<std::vector<int>> bM = 
 	{
 		{0,2,2,0},
-		{0,0,0,0},
+		{0,0,2,0},
 		{2,2,2,2},
 		{0,0,2,0}
 	};
-    for(auto &item : bM)
-    {
-        std::vector<int> tempVec(item);
-        std::reverse(tempVec.begin(), tempVec.end());
-        calcVec(tempVec);
-        std::reverse(tempVec.begin(), tempVec.end());
-        item = tempVec;
-    }
-    for(auto i : bM)
-    {
-        for (auto j : i)
-            std::cout << j << '\t';
-        std::cout << std::endl;
-    }
+    upDownMovement(bM);
+    upDownMovement(bM, true);
 }
