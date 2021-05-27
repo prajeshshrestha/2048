@@ -2,7 +2,7 @@
 #define TWO_H
 #include <bits/stdc++.h>
 #include <conio.h>
-#define BOARD_SIZE 8
+#define BOARD_SIZE 4
 void board(std::vector<std::vector<int>>);
 void startBoard(std::vector<std::vector<int>> &);
 void actionBasedOnKeyPressed(char, std::vector<std::vector<int>>&, bool&);
