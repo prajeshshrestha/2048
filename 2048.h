@@ -8,5 +8,7 @@ void startBoard(std::vector<std::vector<int>> &);
 void actionBasedOnKeyPressed(char, std::vector<std::vector<int>>&, bool&);
 void alterBoard(std::vector<std::vector<int>> &);
 bool checkGameOver(std::vector<std::vector<int>> bM);
+void printScore();
+bool boardFull(std::vector<std::vector<int>>);
 
 #endif

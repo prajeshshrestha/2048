@@ -28,12 +28,14 @@ int main(int argc, char** argv)
 		char kI;
 		kI = getch();
 		actionBasedOnKeyPressed(kI, bM, isRunning);
-		if(checkGameOver(bM))
+		if(checkGameOver(bM) && boardFull(bM))
 		{
 			isRunning = false;
+			std::cout << "\n\n\n\t\t\tNo more moves available";
 		}
 	}
-	std::cout << "Your Score is: " << score << "\n" << 
+	board(bM);
+	printScore();
 	
 	return 0;
 }

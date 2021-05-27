@@ -19,7 +19,7 @@ void board(std::vector<std::vector<int>> bM)
 			if(std::to_string(j).length() == 2)
 				std::cout << "  |   ";
 			else if(std::to_string(j).length() == 3)
-				std::cout << "  |  ";
+				std::cout << " |   ";
 			else if(std::to_string(j).length() == 4)
 				std::cout << "  | ";
 			else if(std::to_string(j).length() == 1)
@@ -105,15 +105,6 @@ void alterBoard(std::vector<std::vector<int>> &bM)
     srand(time(NULL));
     int randPos = freeSpace[std::rand()%freeSpace.size()];
     bM[randPos/4][randPos%4] = 2;
-    for(auto i : bM)
-    {
-        for(auto j : i)
-        {
-            std::cout << j << '\t';
-        }
-        std::cout << '\n';
-    }
-    std::cout << "\n\n";
 }
 
 void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
@@ -139,12 +130,6 @@ void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
             bM[i][j] = tempVec[i];
         }
         tempVec.clear();
-    }
-    for(auto i : bM)
-    {
-        for(auto j : i)
-            std::cout << j << '\t';
-        std::cout << std::endl;
     }
 }
 
@@ -199,22 +184,27 @@ void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, boo
 	{
 		isRunning = false;	
 	}
-	else if(boardFull(bData) && copyVec == bData)
-	{
-		isRunning = false;
-	}
 }
 
 bool checkGameOver(std::vector<std::vector<int>> bM)
 {
 	std::vector<std::vector<int>> copyVec = bM;
 	std::vector<int> keys = {72, 75, 77, 80};
+	int counter;
 	bool isRunning = true;
 	for(auto i : keys)
+	{
 		actionBasedOnKeyPressed(char(i), copyVec, isRunning);
-	if(bM == copyVec)
-		return true;
-	return false;
+		if(bM == copyVec)
+			counter++;
+	}
+		
+	return counter == 4 ? true : false;
+}
+
+void printScore()
+{
+	std::cout << "Your final score: " << score << std::endl;
 }
 
 
