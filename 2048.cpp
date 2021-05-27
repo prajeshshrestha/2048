@@ -120,7 +120,8 @@ void alterBoard(std::vector<std::vector<int>> &bM)
     }
     srand(time(NULL));
     int randPos = freeSpace[std::rand()%freeSpace.size()];
-    bM[randPos/4][randPos%4] = 2;
+	int num = [](){return std::rand()%2 == 0 ? 2 : 4;}();
+    bM[randPos/4][randPos%4] = num;
 }
 
 void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
