@@ -4,19 +4,13 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
-int score = 0;
 
+int score = 0;
 std::vector<std::vector<std::string>> intToChar(std::vector<std::vector<int>> bM)
 {
-	std::vector<std::vector<std::string>> result =
-	{
-		{" "," "," "," "},
-		{" "," "," "," "},
-		{" "," "," "," "},
-		{" "," "," "," "}
-	};
-	for(int i = 0; i < 4; i++)
-		for(int j = 0; j < 4; j++)
+	std::vector<std::vector<std::string>> result(BOARD_SIZE, std::vector<std::string>(BOARD_SIZE, " "));
+	for(int i = 0; i < BOARD_SIZE; i++)
+		for(int j = 0; j < BOARD_SIZE; j++)
 			bM[i][j] == 0 ? result[i][j] = " " : result[i][j] = std::to_string(bM[i][j]);
 	return result;
 }
@@ -38,46 +32,25 @@ void board(std::vector<std::vector<int>> cM)
 			else if(j.length() == 3)
 				std::cout << " |   ";
 			else if(j.length() == 4)
-				std::cout << "  | ";
+				std::cout << "|   ";
 			else if(j.length() == 1)
 				std::cout << "   |   ";
 		}
-			
-		std::cout << "\n\t\t     |------|-------|-------|-------|";
-		std::cout << "\n";
+		std::cout << "\n\t\t     |------|-------|-------|-------|\n";
 	}	
-	std::cout << "\n\n\t\t      Controls: Use the arrow keys."; 
-	std::cout << "\n\t\t      Press 'q' to quit.";
-	std::cout << "\n\t\t      Score: " << score;
-	std::cout << "\n\n\n";
+	std::cout << "\n\n\t\t      Controls: Use the arrow keys.\n\t\t      Press 'q' to quit.\n\t\t      Score: " << score << "\n\n\n"; 
 }
 
 void startBoard(std::vector<std::vector<int>> &aBM)
 {
-	srand(time(NULL));
-	int a = rand()%16;
-	int b = rand()%16;
-	while(b == a)
-	{
-		b = rand()%16;
-	}
-	for(int i = 0; i < 4; i++)
-	{
-		for(int j = 0; j < 4; j++)
-		{
-			int x = i*4 + j +1;
-			if(x == a || x == b)
-			{
-				aBM[i][j] = 2;
-			}
-		}
-	}
+	alterBoard(aBM);
+	alterBoard(aBM);
 }
 
 void calcVec(std::vector<int> &test)
 {
 	int tempInt;
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < BOARD_SIZE; i++)
 	{
 		if(test[i] != 0 && i != 0)
 		{
@@ -110,9 +83,9 @@ void alterBoard(std::vector<std::vector<int>> &bM)
 {
     int pos = 0;
     std::vector<int> freeSpace;
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < BOARD_SIZE; i++)
     {
-        for(int j = 0; j < 4; j++, pos++)
+        for(int j = 0; j < BOARD_SIZE; j++, pos++)
         {
             if(bM[i][j] == 0)
                 freeSpace.push_back(pos);
@@ -121,16 +94,16 @@ void alterBoard(std::vector<std::vector<int>> &bM)
     srand(time(NULL));
     int randPos = freeSpace[std::rand()%freeSpace.size()];
 	int num = [](){return std::rand()%2 == 0 ? 2 : 4;}();
-    bM[randPos/4][randPos%4] = num;
+    bM[randPos/BOARD_SIZE][randPos%BOARD_SIZE] = num;
 }
 
 void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
 {
     std::vector<int> tempVec;
     int j = 0;
-    for(int j = 0; j < 4 ; j++)
+    for(int j = 0; j < BOARD_SIZE ; j++)
     {
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < BOARD_SIZE; i++)
         {
             tempVec.push_back(bM[i][j]);
         }
@@ -142,7 +115,7 @@ void upDownMovement(std::vector<std::vector<int>> &bM, bool downKey = false)
         }
         else
             calcVec(tempVec);
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < BOARD_SIZE; i++)
         {
             bM[i][j] = tempVec[i];
         }
@@ -219,16 +192,32 @@ bool checkGameOver(std::vector<std::vector<int>> bM)
 	score = tempScore;
 	return counter == 4 ? true : false;
 }
-void printScore()
+void printScore(bool ultWin)
 {
 	std::cout << "\t\t\tYour final score: " << score << std::endl;
 	std::ifstream file("savedata");
 	std::string data;
 	file >> data;
-	if(stoi(data) < score)
+	if(ultWin)
+	{
+		std::cout <<  "\t\t\tWinner Winner Chichken Dinner!!!" << std::endl;
+	}
+	else if(score > stoi(data))
 	{
 		std::ofstream file1("savedata");
 		file1 << score;
-		score = stoi(data);
+		std::cout << "\t\t\tCongrats! You just smashed the highest score." << std::endl;
+		std::cout << "\t\t\tThe new highest score is: " << score << std::endl;
 	}
+	else
+		std::cout << "\t\t\tHighest score: " << stoi(data) << std::endl;
+}
+
+bool highestReached(std::vector<std::vector<int>> bM)
+{
+	for(auto i : bM)
+		for(auto j : i)
+			if(j == 2048)
+				return true;
+	return false;
 }

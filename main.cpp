@@ -1,18 +1,11 @@
 #include "2048.h"
 
-
 int main(int argc, char** argv) 
 {
 	//initializing 4x4 board
-	std::vector<std::vector<int>> bM = 
-	{
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	};
-
+	std::vector<std::vector<int>> bM(BOARD_SIZE, std::vector<int>(BOARD_SIZE, 0));
 	bool isRunning = true;
+	bool ultWin = false;
 	startBoard(bM);
 	while(isRunning)
 	{
@@ -26,7 +19,12 @@ int main(int argc, char** argv)
 			isRunning = false;
 			std::cout << "\n\n\t\t\tNo more available moves\n";
 		}
+		if(highestReached(bM))
+		{
+			isRunning = false;
+			ultWin = true;
+		}
 	}
-	printScore();
+	printScore(ultWin);
 	return 0;
 }
