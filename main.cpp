@@ -3,7 +3,6 @@
 
 int main(int argc, char** argv) 
 {
-	//initializers
 	//initializing 4x4 board
 	std::vector<std::vector<int>> bM = 
 	{
@@ -12,9 +11,9 @@ int main(int argc, char** argv)
 		{0,0,0,0},
 		{0,0,0,0}
 	};
+
 	bool isRunning = true;
 	startBoard(bM);
-	
 	while(isRunning)
 	{
 		system("CLS");
@@ -22,13 +21,12 @@ int main(int argc, char** argv)
 		char kI;
 		kI = getch();
 		actionBasedOnKeyPressed(kI, bM, isRunning);
-		if(checkGameOver(bM) && boardFull)
+		if(checkGameOver(bM) && boardFull(bM))
 		{
 			isRunning = false;
-			std::cout << "\n\n\t\t\tNo more moves available\n";
+			std::cout << "\n\n\t\t\tNo more available moves\n";
 		}
 	}
 	printScore();
-	
 	return 0;
 }

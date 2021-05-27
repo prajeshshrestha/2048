@@ -47,7 +47,7 @@ void board(std::vector<std::vector<int>> cM)
 		std::cout << "\n";
 	}	
 	std::cout << "\n\n\t\t      Controls: Use the arrow keys."; 
-	std::cout << "\n\t\t      Press q to quit.";
+	std::cout << "\n\t\t      Press 'q' to quit.";
 	std::cout << "\n\t\t      Score: " << score;
 	std::cout << "\n\n\n";
 }
@@ -209,19 +209,26 @@ bool checkGameOver(std::vector<std::vector<int>> bM)
 	std::vector<int> keys = {72, 75, 77, 80};
 	int counter;
 	bool isRunning = true;
+	int tempScore = score;
 	for(auto i : keys)
 	{
 		actionBasedOnKeyPressed(char(i), copyVec, isRunning);
 		if(bM == copyVec)
 			counter++;
 	}
-		
+	score = tempScore;
 	return counter == 4 ? true : false;
 }
-
 void printScore()
 {
-	std::cout << "Your final score: " << score << std::endl;
+	std::cout << "\t\t\tYour final score: " << score << std::endl;
+	std::ifstream file("savedata");
+	std::string data;
+	file >> data;
+	if(stoi(data) < score)
+	{
+		std::ofstream file1("savedata");
+		file1 << score;
+		score = stoi(data);
+	}
 }
-
-
