@@ -9,13 +9,13 @@ void board(std::vector<std::vector<int>> bM)
 	std::cout << "\n\n\n\n\n";
 	for(auto i : bM)
 	{
-		std::cout << "\t\t\t\t\t";
+		std::cout << "\t\t\t";
 		for(auto j : i)
 			std::cout << j << "\t";
 		std::cout << "\n\n";
 	}	
-	std::cout << "\n\n\t\t\t\t      Controls: Use the arrow keys."; 
-	std::cout << "\n\t\t\t\t      Press q to quit.";
+	std::cout << "\n\n\t\t      Controls: Use the arrow keys."; 
+	std::cout << "\n\t\t      Press q to quit.";
 
 	std::cout << "\n\n\n";
 }
@@ -71,9 +71,6 @@ void calcVec(std::vector<int> &test)
 			}
 		}
 	}
-	for(auto i : test)
-		std::cout << i << "\t";
-	std::cout << "\n\n";
 }
 
 
@@ -83,36 +80,8 @@ void actionBasedOnKeyPressed(char key, std::vector<std::vector<int>> &bData, boo
 	if(int(key)== KEY_LEFT)
 	{
 		std::cout << "You Pressed Left key.";
-		for(int i = 0; i < 4; i++)
-		{
-			for(int j = 0; j < 4; j++)
-			{
-				if(bData[i][j] != 0 && j != 0)
-				{
-					tempInt = bData[i][j];
-					std::cout << i << "   " << j << " temp:  " << tempInt << std::endl;
-					bData[i][j] = 0;
-					bool found = false;
-					for(int k = j-1; k >= 0; k--)
-					{
-						if(bData[i][k] == tempInt)
-						{
-							bData[i][k] = 2*tempInt;
-							found = true;
-						}
-						else if(k == i && !found)
-						{
-							std::cout << "Yeah bruh you entered here!!" << std::endl;
-							std::cout << i << " " << k << std::endl;
-							bData[i][k] = tempInt;
-							found = false;
-								
-						}
-						
-					}
-				}
-			}
-		}
+		for(auto &item : bData)
+			calcVec(item);
 	}
 	else if(int(key)== KEY_RIGHT)
 	{
